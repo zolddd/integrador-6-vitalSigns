@@ -55,8 +55,10 @@ export const signIn = async (req, res) => {
 
   return res
       .cookie("access_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        httpOnly: false, // IMPORTANTE: Permitir acceso desde el frontend
+        sameSite: 'None', // Permitir acceso cross-site
+        maxAge: 3600000, //un ahora de vida de la cookie
+        secure: false
       })
       .status(200)
       .json({ message: "Logged in successfully!" });

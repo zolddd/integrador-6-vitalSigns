@@ -16,7 +16,9 @@ import routerCard from "./routes/cardRoute.js"; */
 const app= express();
 config();
 app.use(express.json());
-app.use(cors());
+//app.use(cors({ credentials: true }));
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+//app.use(cors())
 app.use(cookieParser());
 
 const port=process.env.PORT_SERVER;
