@@ -53,15 +53,16 @@ export const signIn = async (req, res) => {
     }
   );
 
+  
   return res
       .cookie("access_token", token, {
-        httpOnly: false, // IMPORTANTE: Permitir acceso desde el frontend
+        httpOnly: false, 
         sameSite: 'None', // Permitir acceso cross-site
         maxAge: 3600000, //un ahora de vida de la cookie
-        secure: false
+        secure: false //esto se va a cambiar cuando se ponga el ssl
       })
       .status(200)
-      .json({ message: "Logged in successfully!" });
+      .json({ userName:userFound.name, message: "Logged in successfully!" });
 
 };
 
