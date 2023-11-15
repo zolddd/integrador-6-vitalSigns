@@ -4,7 +4,7 @@ import { query } from "../connection.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const [result] = await query("SELECT * FROM user", []);
+    const [result] = await query("SELECT * FROM users", []);
     res.status(201).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ export const getUsers = async (req, res) => {
 
 export const getUserByEmail = async (email) => {
   try {
-    const [result] = await query("SELECT * FROM user WHERE email= ?", [email]);
+    const [result] = await query("SELECT * FROM users WHERE email= ?", [email]);
     if (result.length === 0) {
       return "[Error] something goes wrong"
     }
@@ -28,7 +28,7 @@ export const createUser = async (name,email,password) => {
   try {
     const salt = await bcycript.genSalt(10);
     const passwordEncript = await bcycript.hash(password, salt);
-    const sql ="INSERT INTO user (name,email,password) VALUES (?,?,?)";
+    const sql ="INSERT INTO users (name,email,password) VALUES (?,?,?)";
     const params = [name, email, passwordEncript];
     const [result] = await query(sql, params);
   } catch (error) {
@@ -38,7 +38,7 @@ export const createUser = async (name,email,password) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const [result] = await query("UPDATE user SET ? WHERE id=?", [
+    const [result] = await query("UPDATE users SET ? WHERE id=?", [
       req.body,
       req.params.id,
     ]);
@@ -50,7 +50,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const [result] = await query("DELETE FROM user WHERE id = ?", [
+    const [result] = await query("DELETE FROM users WHERE id = ?", [
       req.params.id,
     ]);
 

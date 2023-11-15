@@ -2,10 +2,10 @@ import { query } from "../connection.js";
 
 export const createVitalSigns = async (req, res) => {
     try {
-      const { heart_rate,blood_pressure,blood_oxygen } = req.body;
+      const { heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen} = req.body;
       const sql =
-      "INSERT INTO vitalSigns (heart_rate,blood_pressure,blood_oxygen) VALUES (?,?,?)";
-      const params = [heart_rate,blood_pressure,blood_oxygen];
+      "INSERT INTO vitalSigns (heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen) VALUES (?,?,?,?,?)";
+      const params = [heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen];
       const [result] = await query(sql, params);
       res.json({ message: "Save succesfuly!" });
     } catch (error) {
