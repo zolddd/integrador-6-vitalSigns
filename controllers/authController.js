@@ -7,8 +7,6 @@ import { config } from "dotenv";
 config();
 
 export const signUp = async (req, res) => {
-  //registra usuarios
-
   const { error } = signUpBodyValidation(req.body);
   if (error) {
     return res
@@ -22,7 +20,6 @@ export const signUp = async (req, res) => {
 };
 
 export const signIn = async (req, res) => {
-  //login
 
   const { error } = loginBodyValidation(req.body);
   if (error) {
@@ -33,7 +30,6 @@ export const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   const userFound = await getUserByEmail(email);
-
 
   if (!userFound) {
     return res.status(400).json({ message: " [Error] something goes wrong!" });
@@ -53,7 +49,6 @@ export const signIn = async (req, res) => {
     }
   );
 
-  
   return res
       .cookie("access_token", token, {
         httpOnly: false, 
