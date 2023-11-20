@@ -11,7 +11,7 @@ export const createVitalSigns = async (req, res) => {
     } = req.body;
 
     const sql =
-      "INSERT INTO vitalSigns (heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen) VALUES (?,?,?,?,?)";
+      "INSERT INTO vitalSigns (heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen, create_at) VALUES (?,?,?,?,?,?)";
     const params = [
       heart_rate,
       temperature,
@@ -97,13 +97,33 @@ function calcularPromedio(datos) {
   const promedioDiastolicPressure = sumaDiastolicPressure / cantidadDatos;
   const promedioBloodOxygen = sumaBloodOxygen / cantidadDatos;
 
+
+  const fecha = new Date(fechaPromedio);
+
+  const diaSemana = fecha.getDay();
+  const fechas = fecha.getDate()
+
+  const fechasListo =  `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fechas}`;
+
+  const diaSemanaFormateado = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+  ];
+
+
   return {
     promedioHeartRate,
     promedioTemperature,
     promedioSystolicPressure,
     promedioDiastolicPressure,
     promedioBloodOxygen,
-    fechaPromedio,
+    fechaPromedio: diaSemanaFormateado[diaSemana],
+    fecha: fechasListo
   };
 }
 
@@ -168,6 +188,22 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio7);
 
     res.json({ totalPromedios });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const getLastOne = async (req, res) => {
+  try {
+    const [result] = await query(
+      `SELECT * FROM vitalSigns ORDER BY id DESC
+    LIMIT 1`,
+      []
+    );
+
+    console.log(result[0]); //acedemos a temperatura
+    res.status(201).json(result[0]);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
