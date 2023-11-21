@@ -8,6 +8,7 @@ export const createVitalSigns = async (req, res) => {
       systolic_pressure,
       diastolic_pressure,
       blood_oxygen,
+      create_at
     } = req.body;
 
     const sql =
@@ -18,6 +19,7 @@ export const createVitalSigns = async (req, res) => {
       systolic_pressure,
       diastolic_pressure,
       blood_oxygen,
+      create_at
     ];
     const [result] = await query(sql, params);
     res.json({ message: "Save succesfuly!" });
@@ -132,7 +134,7 @@ export const promedio = async (req, res) => {
     const totalPromedios = [];
 
     const [result] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 1 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE()`,
       []
     );
 
@@ -140,7 +142,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio1);
 
     const [result2] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 2 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 1 DAY`,
       []
     );
 
@@ -148,7 +150,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio2);
 
     const [result3] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 3 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 2 DAY`,
       []
     );
 
@@ -156,7 +158,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio3);
 
     const [result4] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 4 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 3 DAY`,
       []
     );
 
@@ -164,7 +166,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio4);
 
     const [result5] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 5 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 4 DAY`,
       []
     );
 
@@ -172,7 +174,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio5);
 
     const [result6] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 6 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 5 DAY`,
       []
     );
 
@@ -180,7 +182,7 @@ export const promedio = async (req, res) => {
     totalPromedios.push(promedio6);
 
     const [result7] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 7 DAY`,
+      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 6 DAY`,
       []
     );
 
