@@ -51,15 +51,15 @@ export const probabilisticEvent = async (req, res) => {
     const umbralFiebre = 38; //esta temperatura es considerada fiebre
 
     // Inicializar el número de casos favorables y totales
-    const casosFavorables = 0;
-    const casosTotales = 1;
+    let casosFavorables = 0;
+    let casosTotales = 1;
 
     // Verificar si la temperatura indica fiebre
     if (temperaturaMedida >= umbralFiebre) {
       casosFavorables = 1;
     }
     // Calcular la probabilidad
-    const probabilidadFiebre = casosFavorables / casosTotales;
+    let probabilidadFiebre = casosFavorables / casosTotales *100;
     console.log(probabilidadFiebre);
 
     res.status(201).json(probabilidadFiebre);
@@ -116,7 +116,6 @@ function calcularPromedio(datos) {
     "Viernes",
     "Sábado",
   ];
-
 
   return {
     promedioHeartRate,
