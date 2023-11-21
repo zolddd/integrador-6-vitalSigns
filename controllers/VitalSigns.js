@@ -204,7 +204,7 @@ export const getLastOne = async (req, res) => {
       [req.params.id]
     );
 
-    res.status(201).json(result);
+    res.status(201).json(result[0]);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

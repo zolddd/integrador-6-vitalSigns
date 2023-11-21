@@ -49,12 +49,10 @@ export const signIn = async (req, res) => {
     }
   );
 
-
   let user ={
     userName:userFound.name,
     id_user:userFound.id
   }
-
 
   return res
       .cookie("access_token", token, {
