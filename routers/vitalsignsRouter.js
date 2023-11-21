@@ -5,10 +5,10 @@ const routerSigns = Router();
 
 
 routerSigns.post("/create", createVitalSigns); 
-routerSigns.get("/getAll",authorization,getVitalSigns); //protegiendo si hay token en la cookie
-routerSigns.get("/event",authorization,probabilisticEvent)
-routerSigns.get("/graph",authorization,promedio)
-routerSigns.get("/lastOne",authorization,getLastOne)
+routerSigns.get("/getAll/:id",authorization,getVitalSigns); //protegiendo si hay token en la cookie
+routerSigns.get("/event/:id",authorization,probabilisticEvent)
+routerSigns.get("/graph/:id",authorization,promedio)
+routerSigns.get("/lastOne/:id",authorization,getLastOne)
 
 
 export default routerSigns;

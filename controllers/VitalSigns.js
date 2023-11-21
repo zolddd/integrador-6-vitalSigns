@@ -8,18 +8,20 @@ export const createVitalSigns = async (req, res) => {
       systolic_pressure,
       diastolic_pressure,
       blood_oxygen,
-      create_at
+      create_at, 
+      id_user
     } = req.body;
 
     const sql =
-      "INSERT INTO vitalSigns (heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen, create_at) VALUES (?,?,?,?,?,?)";
+      "INSERT INTO vitalSigns (heart_rate,temperature,systolic_pressure, diastolic_pressure,blood_oxygen,create_at,id_user) VALUES (?,?,?,?,?,?,?)";
     const params = [
       heart_rate,
       temperature,
       systolic_pressure,
       diastolic_pressure,
       blood_oxygen,
-      create_at
+      create_at,
+      id_user
     ];
     const [result] = await query(sql, params);
     res.json({ message: "Save succesfuly!" });
@@ -30,7 +32,7 @@ export const createVitalSigns = async (req, res) => {
 
 export const getVitalSigns = async (req, res) => {
   try {
-    const [result] = await query("SELECT * FROM vitalSigns", []);
+    const [result] = await query("SELECT * FROM vitalSigns WHERE id_user = ?", [req.params.id]);
     console.log(result);
     res.status(201).json(result);
   } catch (error) {
@@ -41,9 +43,8 @@ export const getVitalSigns = async (req, res) => {
 export const probabilisticEvent = async (req, res) => {
   try {
     const [result] = await query(
-      `SELECT * FROM vitalSigns ORDER BY id DESC
-    LIMIT 1`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? ORDER BY id DESC LIMIT 1`,
+      [req.params.id]
     );
 
     console.log(result[0].temperature); //acedemos a temperatura
@@ -133,56 +134,56 @@ export const promedio = async (req, res) => {
     const totalPromedios = [];
 
     const [result] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE()`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE()`,
+      [req.params.id]
     );
 
     let promedio1 = await calcularPromedio(result);
     totalPromedios.push(promedio1);
 
     const [result2] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 1 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 1 DAY`,
+      [req.params.id]
     );
 
     let promedio2 = await calcularPromedio(result2);
     totalPromedios.push(promedio2);
 
     const [result3] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 2 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 2 DAY`,
+      [req.params.id]
     );
 
     let promedio3 = await calcularPromedio(result3);
     totalPromedios.push(promedio3);
 
     const [result4] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 3 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 3 DAY`,
+      [req.params.id]
     );
 
     let promedio4 = await calcularPromedio(result4);
     totalPromedios.push(promedio4);
 
     const [result5] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 4 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 4 DAY`,
+      [req.params.id]
     );
 
     let promedio5 = await calcularPromedio(result5);
     totalPromedios.push(promedio5);
 
     const [result6] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 5 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 5 DAY`,
+      [req.params.id]
     );
 
     let promedio6 = await calcularPromedio(result6);
     totalPromedios.push(promedio6);
 
     const [result7] = await query(
-      `SELECT * FROM vitalSigns WHERE create_at = CURDATE() - INTERVAL 6 DAY`,
-      []
+      `SELECT * FROM vitalSigns WHERE id_user = ? AND create_at = CURDATE() - INTERVAL 6 DAY`,
+      [req.params.id]
     );
 
     let promedio7 = await calcularPromedio(result7);
@@ -198,13 +199,12 @@ export const promedio = async (req, res) => {
 export const getLastOne = async (req, res) => {
   try {
     const [result] = await query(
-      `SELECT * FROM vitalSigns ORDER BY id DESC
+      `SELECT * FROM vitalSigns WHERE id_user=? ORDER BY id DESC
     LIMIT 1`,
-      []
+      [req.params.id]
     );
 
-    console.log(result[0]); //acedemos a temperatura
-    res.status(201).json(result[0]);
+    res.status(201).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

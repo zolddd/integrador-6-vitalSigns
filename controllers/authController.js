@@ -49,15 +49,22 @@ export const signIn = async (req, res) => {
     }
   );
 
+
+  let user ={
+    userName:userFound.name,
+    id_user:userFound.id
+  }
+
+
   return res
       .cookie("access_token", token, {
         httpOnly: false, 
-        sameSite: 'None', // Permitir acceso cross-site
+        sameSite: 'None', 
         maxAge: 3600000, //un ahora de vida de la cookie
         secure: false //esto se va a cambiar cuando se ponga el ssl
       })
       .status(200)
-      .json({ userName:userFound.name, message: "Logged in successfully!" });
+      .json({ user, message: "Logged in successfully!" });
 
 };
 
